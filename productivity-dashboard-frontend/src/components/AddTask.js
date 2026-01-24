@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function AddTask(onTaskAdded) {
+function AddTask({ onTaskAdded }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("pending");

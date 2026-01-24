@@ -54,6 +54,7 @@ console.log("TASKS STATE:", tasks);
                         <h3>{task.title}</h3>
                         <p>{task.description}</p>
                         <p>Status: {task.completed ? "Completed" : "Pending"}</p>
+                        <p>{task.assignedTo}</p>
                     </li>
                 ))}
             </ul>
