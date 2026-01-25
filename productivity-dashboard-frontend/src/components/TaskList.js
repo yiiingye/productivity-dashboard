@@ -27,6 +27,8 @@ function TaskList({ tasks }) {
                         {/* Edit status */}
                         <select
                             value={task.status}
+                            className="statusSelect"
+
                             onChange={(e) => handleStatusChange(task._id, e.target.value)}
                         >
                             <option value="pending">Pending</option>
@@ -35,11 +37,8 @@ function TaskList({ tasks }) {
                         </select>
 
                         {/* Delete button */}
-                        <button
-                            onClick={() => handleDelete(task._id)}
-                            style={{ marginLeft: "10px", color: "white", background: "red" }}
-                        >
-                            Delete
+                        <button type="submit" className="deleteTask" role="button" onClick={() => handleDelete(task._id)}>
+                            <span class="text">Delete</span>
                         </button>
                     </div>
                 ))}

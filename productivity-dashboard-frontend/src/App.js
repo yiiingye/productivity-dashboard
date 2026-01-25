@@ -46,7 +46,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Productivity Dashboard</h1>
+      <h1 className="KPD">Kitty's Productivity Dashboard</h1>
       <AddTask onTaskAdded={handleTaskAdded} />
       <TaskList tasks={tasks} />
       <Analytics />

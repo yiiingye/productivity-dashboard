@@ -8,7 +8,7 @@ function AddTask({ onTaskAdded }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         const res = await fetch("http://localhost:5000/tasks", {
             method: "POST",
             headers: {
@@ -28,10 +28,10 @@ function AddTask({ onTaskAdded }) {
         } else {
             alert("Failed to add task.");
         }
-    
+
     }
     return (
-        <div>
+        <div className="newTask">
             <h2>Add New Task</h2>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -43,9 +43,10 @@ function AddTask({ onTaskAdded }) {
                         required
                     />
                 </div>
-                <div>
+                <div className="description">
                     <label>Description:</label>
-                    <textarea
+                    <textarea       
+                        
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
@@ -69,7 +70,10 @@ function AddTask({ onTaskAdded }) {
                         onChange={(e) => setAssignedTo(e.target.value)}
                     />
                 </div>
-                <button type="submit">Add Task</button>
+
+                <button type="submit" class="addTask" role="button">
+                    <span class="text">Add Task</span>
+                </button>
             </form>
         </div>
     );

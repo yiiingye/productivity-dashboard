@@ -128,7 +128,7 @@ function Analytics() {
           <div
             style={{
               width: `${taskData.completionRate}%`,
-              background: "#2ecc71",
+              background: "#35a464ff",
               height: "100%"
             }}
           ></div>
