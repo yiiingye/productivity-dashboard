@@ -1,62 +1,48 @@
-const Task = require('../models/Task.js');
+const Task = require("../models/Task");
 
-//Getting all tasks
-
-exports.getTasks = async (req, res) => {
-    try {
-        const tasks = await Task.find();
-        res.json(tasks);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-
-//Adding a Task
-
-exports.addTask = async (req, res) => {
-  const { title, description, assignedTo, status } = req.body;
-  const newTask = new Task({ title, description, status, assignedTo });
-
+// CREATE
+exports.createTask = async (req, res) => {
   try {
-    const savedTask = await newTask.save();
-
-    // Emit event
-    const io = req.app.get('io');
-    io.emit('taskCreated', savedTask);
-
-    res.status(201).json(savedTask);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+    const task = await Task.create(req.body);
+    req.io.emit("taskCreated", task);
+    res.json(task);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to create task" });
   }
 };
 
+// READ ALL
+exports.getTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find();
+    res.json(tasks);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch tasks" });
+  }
+};
 
+// UPDATE
 exports.updateTask = async (req, res) => {
   try {
-    const updated = await Task.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updated = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
 
-    const io = req.app.get('io');
-    io.emit('taskUpdated', updated);
-
+    req.io.emit("taskUpdated", updated);
     res.json(updated);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update task" });
   }
 };
 
+// DELETE
 exports.deleteTask = async (req, res) => {
   try {
     const deleted = await Task.findByIdAndDelete(req.params.id);
 
-    const io = req.app.get('io');
-    io.emit('taskDeleted', deleted);
-
-    res.json({ message: 'Task deleted', task: deleted });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+    req.io.emit("taskDeleted", deleted);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete task" });
   }
 };

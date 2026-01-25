@@ -1,65 +1,50 @@
-import { useEffect, useState } from "react";
-import {io} from "socket.io-client";
-
-const socket = io("http://localhost:5000");
-function TaskList() {
-    const [tasks, setTasks] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    //Render once component is mounted
-    useEffect(() => {
-        fetch("http://localhost:5000/tasks")
-            .then(response => response.json())
-            .then(data => {
-                console.log("DATA FROM API:", data);
-
-                setTasks(data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error("Error fetching tasks:", error);
-                setLoading(false);
-            });
-    }, []);
-
-    useEffect(() => {
-        socket.on("taskCreated", (newTask) => {
-            setTasks(prevTasks => [...prevTasks, newTask]);
-        }   ); 
-        socket.on("taskUpdated", (updatedTask) => {
-            setTasks(prevTasks => prevTasks.map(task => task._id === updatedTask._id ? updatedTask : task));
+function TaskList({ tasks }) {
+    const handleDelete = async (id) => {
+        await fetch(`http://localhost:5000/tasks/${id}`, {
+            method: "DELETE"
         });
-        socket.on("taskDeleted", (deletedTaskId) => {
-            setTasks(prevTasks => prevTasks.filter(task => task._id !== deletedTaskId));
+    };
+
+    const handleStatusChange = async (id, newStatus) => {
+        await fetch(`http://localhost:5000/tasks/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus })
         });
-
-        return () => {
-            socket.off("taskCreated");
-            socket.off("taskUpdated");
-            socket.off("taskDeleted");
-        };
-    }, []);
-console.log("TASKS STATE:", tasks);
-
-    if (loading) {
-        return <p>Loading tasks...</p>;
-    }
+    };
 
     return (
         <div>
-            <h2>Task List</h2>
-            <ul>
+            <h2>Tasks</h2>
+            <div className="Tasks">
                 {tasks.map(task => (
-                    <li key={task._id}>
+                    <div className="Task" key={task._id} >
                         <h3>{task.title}</h3>
                         <p>{task.description}</p>
-                        <p>Status: {task.completed ? "Completed" : "Pending"}</p>
-                        <p>{task.assignedTo}</p>
-                    </li>
+                        <p><strong>Status:</strong> {task.status}</p>
+                        <p><strong>Assigned To:</strong> {task.assignedTo}</p>
+
+                        {/* Edit status */}
+                        <select
+                            value={task.status}
+                            onChange={(e) => handleStatusChange(task._id, e.target.value)}
+                        >
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+
+                        {/* Delete button */}
+                        <button
+                            onClick={() => handleDelete(task._id)}
+                            style={{ marginLeft: "10px", color: "white", background: "red" }}
+                        >
+                            Delete
+                        </button>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
-
 }
 export default TaskList;
