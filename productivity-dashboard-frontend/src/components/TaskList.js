@@ -19,7 +19,8 @@ function TaskList({ tasks }) {
             <div className="Tasks">
                 {tasks.map(task => (
                     <div className="Task" key={task._id} >
-                        <h3>{task.title}</h3>
+                        <h3> <img src="./apple.png" alt="Task Icon" style={{ height: "15px", margin: "0 5px 0 0" }}></img>
+                            {task.title}</h3>
                         <p>{task.description}</p>
                         <p><strong>Status:</strong> {task.status}</p>
                         <p><strong>Assigned To:</strong> {task.assignedTo}</p>
@@ -38,7 +39,7 @@ function TaskList({ tasks }) {
 
                         {/* Delete button */}
                         <button type="submit" className="deleteTask" role="button" onClick={() => handleDelete(task._id)}>
-                            <span class="text">Delete</span>
+                            <span className="text"><strong>Delete</strong></span>
                         </button>
                     </div>
                 ))}

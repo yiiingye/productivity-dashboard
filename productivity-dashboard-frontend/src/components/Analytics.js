@@ -45,10 +45,8 @@ function Analytics() {
 
   useEffect(() => {
     fetchAnalytics();
-
     socket.on("taskCreated", fetchAnalytics);
     socket.on("taskUpdated", fetchAnalytics);
-
     return () => {
       socket.off("taskCreated");
       socket.off("taskUpdated");
@@ -57,14 +55,21 @@ function Analytics() {
 
   if (loading || !taskData) return <p>Loading analytics...</p>;
 
-  // --- Chart Data ---
+  const chartColors = [
+    "rgba(255, 147, 182, 0.8)",   // pastel pink
+    "rgba(255, 223, 186, 0.8)",   // pastel peach
+    "rgba(187, 222, 251, 0.8)",   // pastel blue
+    "rgba(204, 153, 255, 0.8)",   // pastel purple
+    "rgba(255, 250, 205, 0.8)"    // pastel yellow
+  ];
+
   const barData = {
     labels: taskData.statusCounts.map(s => s.status),
     datasets: [
       {
         label: "Tasks by Status",
         data: taskData.statusCounts.map(s => s.count),
-        backgroundColor: "rgba(75, 192, 192, 0.6)"
+        backgroundColor: chartColors
       }
     ]
   };
@@ -75,13 +80,7 @@ function Analytics() {
       {
         label: "Tasks by Assignee",
         data: taskData.assigneeCounts.map(a => a.count),
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(153, 102, 255, 0.6)"
-        ]
+        backgroundColor: chartColors
       }
     ]
   };
@@ -92,8 +91,13 @@ function Analytics() {
       {
         label: "Tasks Created",
         data: taskData.tasksOverTime.map(t => t.count),
-        borderColor: "rgba(153, 102, 255, 0.6)",
-        tension: 0.2
+        borderColor: "rgba(255, 147, 182, 0.9)",
+        backgroundColor: "rgba(255, 182, 193, 0.2)",
+        tension: 0.3,
+        fill: true,
+        pointBackgroundColor: chartColors,
+        pointBorderColor: "#fff",
+        pointHoverRadius: 5
       }
     ]
   };
@@ -104,46 +108,60 @@ function Analytics() {
       {
         label: "Tasks Completed",
         data: taskData.completedOverTime.map(t => t.count),
-        borderColor: "rgba(46, 204, 113, 0.8)",
-        tension: 0.2
+        borderColor: "rgba(187, 222, 251, 0.9)",
+        backgroundColor: "rgba(204, 153, 255, 0.2)",
+        tension: 0.3,
+        fill: true,
+        pointBackgroundColor: chartColors,
+        pointBorderColor: "#fff",
+        pointHoverRadius: 5
       }
     ]
   };
 
+  const titleStyle = { fontFamily: "'Segoe UI', sans-serif", color: "#4a4a4a" };
+
+  const TitleWithIcon = ({ icon, children }) => (
+    <h3 style={{ ...titleStyle, display: "inline-flex", alignItems: "center" }}>
+      <img
+        src={icon}
+        alt="Icon"
+        style={{ height: "25px", display: "inline-block" }}
+      />
+      {children}
+    </h3>
+  );
+
   return (
     <div>
-      <h2>Analytics Dashboard</h2>
+      <h2 style={titleStyle}>Analytics Dashboard</h2>
 
-      {/* Completion Rate */}
       <div style={{ margin: "20px 0" }}>
-        <h3>Completion Rate</h3>
-        <div
-          style={{
-            background: "#eee",
-            height: "20px",
-            borderRadius: "10px",
-            overflow: "hidden"
-          }}
-        >
+        <TitleWithIcon icon="./cake.png">Completion Rate</TitleWithIcon>
+        <div style={{ background: "#eee", height: "20px", borderRadius: "10px", overflow: "hidden" }}>
           <div
             style={{
               width: `${taskData.completionRate}%`,
-              background: "#35a464ff",
-              height: "100%"
+              background: "#ff93b6",
+              height: "100%",
+              transition: "width 0.3s ease"
             }}
           ></div>
         </div>
         <p>{taskData.completionRate}% completed</p>
       </div>
 
-      <h3>Tasks by Status</h3>
+      <TitleWithIcon icon="./cake.png">Tasks by Status</TitleWithIcon>
       <Bar data={barData} />
 
-      <h3>Tasks by Assignee</h3>
+      <TitleWithIcon icon="./cake.png">Tasks by Assignee</TitleWithIcon>
       <Pie data={pieData} />
 
-      <h3>Tasks Created Over Time</h3>
+      <TitleWithIcon icon="./cake.png">Tasks Created Over Time</TitleWithIcon>
       <Line data={createdLineData} />
+
+      <TitleWithIcon icon="./cake.png">Tasks Completed Over Time</TitleWithIcon>
+      <Line data={completedLineData} />
     </div>
   );
 }
