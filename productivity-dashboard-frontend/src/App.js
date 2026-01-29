@@ -9,13 +9,15 @@ const socket = io("http://localhost:5000");
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [view, setView] = useState("dashboard"); // "dashboard" o "newTask"
+  const [view, setView] = useState("tasks"); // "tasks", "charts", "newTask"
 
   useEffect(() => {
+    // Obtener tareas iniciales
     fetch("http://localhost:5000/tasks")
       .then(res => res.json())
       .then(data => setTasks(data));
 
+    // Suscripción a sockets
     socket.on("taskCreated", (task) => {
       setTasks(prev => [...prev, task]);
     });
@@ -37,18 +39,41 @@ function App() {
 
   const handleTaskAdded = (newTask) => {
     setTasks(prev => [...prev, newTask]);
-    setView("dashboard"); // volver a la vista principal después de agregar
+    setView("tasks"); // volver a la vista principal después de agregar
   };
 
   return (
     <div className="App">
       <div className="header">
-
-        <div className="title" style={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
+        <div
+          className="title"
+          style={{ display: "flex", alignItems: "center", flexDirection: "row" }}
+        >
           <img src="./mylogo.png" alt="Logo" style={{ height: "50px" }} />
           <h1>Productivity Dashboard</h1>
         </div>
-        {view === "dashboard" && (
+
+        <div style={{ display: "flex", gap: "10px" }}>
+          {/* Botón Charts / All Tasks */}
+          {view === "tasks" && (
+            <button
+              className="addTask"
+              onClick={() => setView("charts")}
+              style={{ height: "40px" }}
+            >
+              Charts
+            </button>
+          )}
+          {view === "charts" && (
+            <button
+              className="addTask"
+              onClick={() => setView("tasks")}
+              style={{ height: "40px" }}
+            >
+              All Tasks
+            </button>
+          )}
+
           <button
             className="addTask"
             onClick={() => setView("newTask")}
@@ -56,18 +81,15 @@ function App() {
           >
             Add Task
           </button>
-        )}
+
+        </div>
       </div>
 
-      {view === "dashboard" && (
-        <>
-          <TaskList tasks={tasks} />
-          <Analytics />
-        </>
-      )}
-
+      {/* Renderizado condicional */}
+      {view === "tasks" && <TaskList tasks={tasks} />}
+      {view === "charts" && <Analytics />}
       {view === "newTask" && (
-        <AddTask onTaskAdded={handleTaskAdded} onCancel={() => setView("dashboard")} />
+        <AddTask onTaskAdded={handleTaskAdded} onCancel={() => setView("tasks")} />
       )}
     </div>
   );

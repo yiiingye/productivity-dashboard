@@ -4,7 +4,7 @@ function AddTask({ onTaskAdded, onCancel }) {
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("pending");
     const [assignedTo, setAssignedTo] = useState("");
-
+    const [priority, setPriority] = useState("medium");
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -13,7 +13,7 @@ function AddTask({ onTaskAdded, onCancel }) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ title, description, status, assignedTo }),
+            body: JSON.stringify({ title, description, status, assignedTo, priority }),
         });
 
         if (res.ok) {
@@ -47,6 +47,14 @@ function AddTask({ onTaskAdded, onCancel }) {
                             <option value="pending">Pending</option>
                             <option value="in-progress">In Progress</option>
                             <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Priority: </label>
+                        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
                         </select>
                     </div>
                     <div>

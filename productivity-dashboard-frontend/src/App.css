@@ -116,11 +116,12 @@ body {
 .newTask h2 {
   text-align: center;
   font-family: 'Fredoka One', cursive;
-  color: rgb(120, 120, 120); /* gris elegante */
+  color: rgb(120, 120, 120);
+  /* gris elegante */
   margin-bottom: 20px;
 }
 
-.newTask form > div {
+.newTask form>div {
   margin-bottom: 12px;
 }
 
@@ -178,6 +179,7 @@ body {
 }
 
 @media (max-width: 420px) {
+
   .addTask,
   .deleteTask {
     height: 44px;
@@ -191,5 +193,81 @@ body {
 
   .newTask {
     width: 80vw;
+  }
+}
+
+.chartContainer {
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 8px;
+
+}
+
+
+.charts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3 columnas iguales */
+  grid-auto-rows: minmax(300px, auto);
+  /* altura mínima 300px, ajustable */
+  gap: 20px;
+  /* espacio entre charts */
+  padding: 10px;
+}
+
+/* Cada chart container */
+.chartContainer {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título con icono */
+.chartContainer h3 {
+  display: flex;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+  color: #4a4a4a;
+  margin-bottom: 10px;
+}
+
+.chartContainer h3 img {
+  height: 25px;
+  margin-right: 8px;
+}
+
+.chartBox {
+  height: 300px;
+  /* altura reducida para no scrollear */
+  position: relative;
+}
+
+.chartBox canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive: menos de 1024px → 2 charts por fila */
+@media (max-width: 1024px) {
+  .charts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .chartBox {
+    height: 280px;
+    /* un poquito más bajo para tablets */
+  }
+}
+
+/* Responsive: menos de 600px → 1 chart por fila */
+@media (max-width: 600px) {
+  .charts {
+    grid-template-columns: 1fr;
+  }
+
+  .chartBox {
+    height: 250px;
+    /* móviles más pequeños */
   }
 }
