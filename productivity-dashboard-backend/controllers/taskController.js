@@ -1,15 +1,23 @@
 const Task = require("../models/Task");
 
+
 // CREATE
 exports.createTask = async (req, res) => {
   try {
+
     const task = await Task.create(req.body);
-    req.io.emit("taskCreated", task);
+
+
+    if (req.io) {
+      req.io.emit("taskCreated", task);
+    }
+
     res.json(task);
   } catch (err) {
-    res.status(500).json({ error: "Failed to create task" });
+    res.status(500).json({ error: err.message });
   }
 };
+
 
 // READ ALL
 exports.getTasks = async (req, res) => {
@@ -28,7 +36,10 @@ exports.updateTask = async (req, res) => {
       new: true,
     });
 
-    req.io.emit("taskUpdated", updated);
+    if (req.io) {
+      req.io.emit("taskUpdated", updated);
+    }
+
     res.json(updated);
   } catch (err) {
     res.status(500).json({ error: "Failed to update task" });
@@ -40,7 +51,10 @@ exports.deleteTask = async (req, res) => {
   try {
     const deleted = await Task.findByIdAndDelete(req.params.id);
 
-    req.io.emit("taskDeleted", deleted);
+    if (req.io) {
+      req.io.emit("taskDeleted", deleted);
+    }
+
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: "Failed to delete task" });
