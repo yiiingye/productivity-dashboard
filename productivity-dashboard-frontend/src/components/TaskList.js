@@ -14,18 +14,13 @@ function TaskList({ tasks }) {
         });
     };
 
-    const totalTasks = tasks.length;
-    const completedTasks = tasks.filter(t => t.status === "completed").length;
-    const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-
-    const titleStyle = { fontFamily: "'Segoe UI', sans-serif", color: "#4a4a4a" };
-
-    const TitleWithIcon = ({ icon, children }) => (
-        <h3 style={{ ...titleStyle, display: "inline-flex", alignItems: "center" }}>
-            <img src={icon} alt="Icon" style={{ height: "25px", display: "inline-block" }} />
-            {children}
-        </h3>
-    );
+    const handlePriorityChange = async (id, newPriority) => {
+        await fetch(`http://localhost:5000/tasks/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ priority: newPriority })
+        });
+    }
 
     return (
 
@@ -48,6 +43,15 @@ function TaskList({ tasks }) {
                             <option value="pending">Pending</option>
                             <option value="in-progress">In Progress</option>
                             <option value="completed">Completed</option>
+                        </select>
+                        <select
+                            value={task.priority}
+                            className="prioritySelect"
+                            onChange={(e) => handlePriorityChange(task._id, e.target.value)}
+                        >
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
                         </select>
 
                         <button type="submit" className="deleteTask" onClick={() => handleDelete(task._id)}>

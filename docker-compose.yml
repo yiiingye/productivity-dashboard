@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./productivity-dashboard-backend
+    container_name: backend
+    restart: always
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./productivity-dashboard-backend/.env
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./productivity-dashboard-frontend
+    container_name: frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:

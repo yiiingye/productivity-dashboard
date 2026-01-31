@@ -62,16 +62,20 @@ function Analytics() {
     "rgba(255, 223, 186, 0.8)",
     "rgba(187, 222, 251, 0.8)",
     "rgba(204, 153, 255, 0.8)",
-    "rgba(255, 250, 205, 0.8)"
+    "rgba(255, 250, 205, 0.8)",
+    "rgba(178, 255, 178, 0.8)",
+    "rgba(255, 220, 182, 0.8)",
+    "rgba(221, 130, 50, 0.8)",
+    "rgba(106, 139, 150, 0.8)",
+    "rgba(167, 127, 167, 0.8)"
   ];
 
   const chartOptions = {
     responsive: true,
-    maintainAspectRatio: false, // ← importante
+    maintainAspectRatio: false,
     plugins: { legend: { position: "top" } }
   };
 
-  // --- Datos de charts ---
   const barData = {
     labels: (taskData.statusCounts || []).map(s => s.status),
     datasets: [{
@@ -137,7 +141,6 @@ function Analytics() {
     }]
   };
 
-
   const titleStyle = { fontFamily: "'Segoe UI', sans-serif", color: "#4a4a4a" };
   const TitleWithIcon = ({ icon, children }) => (
     <h3 style={{ ...titleStyle, display: "inline-flex", alignItems: "center" }}>
@@ -147,7 +150,7 @@ function Analytics() {
   );
 
   return (
-    <div className="charts" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+    <div className="charts">
       <div className="chartContainer">
         <TitleWithIcon icon="./cake.png">Tasks by Status</TitleWithIcon>
         <div className="chartBox"><Bar data={barData} options={chartOptions} /></div>

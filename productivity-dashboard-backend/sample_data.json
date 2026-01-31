@@ -1,0 +1,111 @@
+[
+  {
+    "title": "Prepare sprint report",
+    "description": "Weekly productivity summary",
+    "status": "in progress",
+    "priority": "high",
+    "assignedTo": "Alice",
+    "createdAt": "2025-01-20T10:00:00Z",
+    "completedAt": null
+  },
+  {
+    "title": "Fix dashboard layout",
+    "description": "Align charts and improve spacing",
+    "status": "completed",
+    "priority": "medium",
+    "assignedTo": "Alex",
+    "createdAt": "2025-01-18T09:00:00Z",
+    "completedAt": "2025-01-19T14:00:00Z"
+  },
+  {
+    "title": "Add Hello Kitty theme",
+    "description": "Add pastel colors and icons",
+    "status": "pending",
+    "priority": "low",
+    "assignedTo": "Charlie",
+    "createdAt": "2025-01-25T12:00:00Z",
+    "completedAt": null
+  },
+
+  {
+    "title": "Commit changes to GitHub",
+    "description": "Commit all changes to the main branch",
+    "status": "pending",
+    "priority": "medium",
+    "assignedTo": "Charlie",
+    "createdAt": "2025-01-25T12:00:00Z",
+    "completedAt": null
+  },
+  {
+    "title": "Optimize database queries",
+    "description": "Improve performance of data retrieval",
+    "status": "in progress",
+    "priority": "high",
+    "assignedTo": "Bob",
+    "createdAt": "2025-01-22T11:30:00Z",
+    "completedAt": null
+  },
+  {
+    "title": "Update user documentation",
+    "description": "Revise and expand user guides",
+    "status": "completed",
+    "priority": "low",
+    "assignedTo": "Alice",
+    "createdAt": "2025-01-15T08:45:00Z",
+    "completedAt": "2025-01-18T16:20:00Z"
+  },
+  {
+    "title": "Implement dark mode",
+    "description": "Add dark mode option for better usability at night",
+    "status": "in progress",
+    "priority": "medium",
+    "assignedTo": "Dave",
+    "createdAt": "2025-01-21T14:15:00Z",
+    "completedAt": null
+  },
+  {
+    "title": "Conduct user feedback survey",
+    "description": "Gather user feedback for the new features",
+    "status": "pending",
+    "priority": "high",
+    "assignedTo": "Eve",
+    "createdAt": "2025-01-23T10:00:00Z",
+    "completedAt": null
+  },
+  {
+    "title": "Refactor codebase",
+    "description": "Improve code structure and readability",
+    "status": "completed",
+    "priority": "medium",
+    "assignedTo": "Bob",
+    "createdAt": "2025-01-10T09:30:00Z",
+    "completedAt": "2025-01-17T15:45:00Z"
+  },
+  {
+    "title": "Set up continuous integration",
+    "description": "Automate testing and deployment",
+    "status": "in progress",
+    "priority": "high",
+    "assignedTo": "Alice",
+    "createdAt": "2025-01-19T13:00:00Z",
+    "completedAt": null
+  },
+  {
+    "title": "Design new logo",
+    "description": "Create a fresh logo for the dashboard",
+    "status": "pending",
+    "priority": "low",
+    "assignedTo": "Charlie",
+    "createdAt": "2025-01-24T11:00:00Z",
+    "completedAt": null
+  },
+  {
+    "title": "Improve accessibility",
+    "description": "Ensure compliance with accessibility standards",
+    "status": "in progress",
+    "priority": "medium",
+    "assignedTo": "Dave",
+    "createdAt": "2025-01-20T15:30:00Z",
+    "completedAt": null
+  }
+]

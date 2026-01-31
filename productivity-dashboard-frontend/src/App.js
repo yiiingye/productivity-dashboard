@@ -12,23 +12,13 @@ function App() {
   const [view, setView] = useState("tasks"); // "tasks", "charts", "newTask"
 
   useEffect(() => {
-    // Obtener tareas iniciales
     fetch("http://localhost:5000/tasks")
       .then(res => res.json())
       .then(data => setTasks(data));
 
-    // Suscripción a sockets
-    socket.on("taskCreated", (task) => {
-      setTasks(prev => [...prev, task]);
-    });
-
-    socket.on("taskUpdated", (task) => {
-      setTasks(prev => prev.map(t => (t._id === task._id ? task : t)));
-    });
-
-    socket.on("taskDeleted", (task) => {
-      setTasks(prev => prev.filter(t => t._id !== task._id));
-    });
+    socket.on("taskCreated", (task) => setTasks(prev => [...prev, task]));
+    socket.on("taskUpdated", (task) => setTasks(prev => prev.map(t => (t._id === task._id ? task : t))));
+    socket.on("taskDeleted", (task) => setTasks(prev => prev.filter(t => t._id !== task._id)));
 
     return () => {
       socket.off("taskCreated");
@@ -37,29 +27,20 @@ function App() {
     };
   }, []);
 
-  const handleTaskAdded = (newTask) => {
-    setTasks(prev => [...prev, newTask]);
-    setView("tasks"); // volver a la vista principal después de agregar
-  };
-
   return (
     <div className="App">
       <div className="header">
-        <div
-          className="title"
-          style={{ display: "flex", alignItems: "center", flexDirection: "row" }}
-        >
+        <div className="title" style={{ display: "flex", alignItems: "center", flexDirection: "row" }}>
           <img src="./mylogo.png" alt="Logo" style={{ height: "50px" }} />
-          <h1>Productivity Dashboard</h1>
+          <h1>HelloKitty Productivity Monitor</h1>
         </div>
 
         <div style={{ display: "flex", gap: "10px" }}>
-          {/* Botón Charts / All Tasks */}
           {view === "tasks" && (
             <button
               className="addTask"
               onClick={() => setView("charts")}
-              style={{ height: "40px" }}
+              style={{ height: "40px", backgroundColor: "rgb(150, 105, 80)" }}
             >
               Charts
             </button>
@@ -68,29 +49,30 @@ function App() {
             <button
               className="addTask"
               onClick={() => setView("tasks")}
-              style={{ height: "40px" }}
+              style={{ height: "40px", backgroundColor: "rgb(150, 105, 80)" }}
             >
               All Tasks
             </button>
           )}
 
+          {/* Botón Add Task / Go Back */}
           <button
             className="addTask"
-            onClick={() => setView("newTask")}
-            style={{ height: "40px" }}
+            onClick={() => setView(view === "newTask" ? "tasks" : "newTask")}
+            style={{
+              height: "40px",
+              backgroundColor: view === "newTask" ? "rgba(140, 138, 138, 1)" : "rgb(255, 147, 182)",
+              color: "#fff"
+            }}
           >
-            Add Task
+            {view === "newTask" ? "Go Back" : "Add Task"}
           </button>
-
         </div>
       </div>
 
-      {/* Renderizado condicional */}
       {view === "tasks" && <TaskList tasks={tasks} />}
       {view === "charts" && <Analytics />}
-      {view === "newTask" && (
-        <AddTask onTaskAdded={handleTaskAdded} onCancel={() => setView("tasks")} />
-      )}
+      {view === "newTask" && <AddTask onCancel={() => setView("tasks")} />}
     </div>
   );
 }

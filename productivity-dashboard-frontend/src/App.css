@@ -29,10 +29,14 @@ body {
   box-sizing: border-box;
 }
 
+.Tasks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
 .Task {
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 8px;
-  margin: 20px 21px;
-  width: 22vw;
   padding: 20px;
   background-color: rgb(255, 220, 230);
   border-radius: 10px;
@@ -48,14 +52,6 @@ body {
 .Task:hover {
   transform: translateY(-2px);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 12px;
-}
-
-.Tasks {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-  text-align: center;
 }
 
 .addTask,
@@ -117,11 +113,10 @@ body {
   text-align: center;
   font-family: 'Fredoka One', cursive;
   color: rgb(120, 120, 120);
-  /* gris elegante */
   margin-bottom: 20px;
 }
 
-.newTask form>div {
+.newTask form > div {
   margin-bottom: 12px;
 }
 
@@ -142,7 +137,8 @@ body {
   font-family: 'Nunito', 'Segoe UI', sans-serif;
 }
 
-.statusSelect {
+.statusSelect,
+.prioritySelect {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -163,111 +159,105 @@ body {
   font-family: 'Nunito', 'Segoe UI', sans-serif;
 }
 
-.statusSelect:hover {
+.statusSelect:hover,
+.prioritySelect:hover {
   background-color: rgb(255, 200, 220);
 }
 
-.statusSelect:focus {
+.statusSelect:focus,
+.prioritySelect:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(130, 180, 255, 0.25);
 }
 
-.statusSelect option {
+.statusSelect option,
+.prioritySelect option {
   background-color: rgb(255, 182, 193);
   color: #000;
   font-family: 'Nunito', 'Segoe UI', sans-serif;
 }
 
-@media (max-width: 420px) {
-
-  .addTask,
-  .deleteTask {
-    height: 44px;
-    font-size: 14px;
-    padding: 6px 12px;
-  }
-
-  .Task {
-    width: 80vw;
-  }
-
-  .newTask {
-    width: 80vw;
-  }
-}
-
-.chartContainer {
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 8px;
-
-}
-
-
 .charts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* 3 columnas iguales */
-  grid-auto-rows: minmax(300px, auto);
-  /* altura mínima 300px, ajustable */
   gap: 20px;
-  /* espacio entre charts */
-  padding: 10px;
 }
 
-/* Cada chart container */
 .chartContainer {
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 15px;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 12px;
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Título con icono */
+.chartContainer:hover {
+  transform: translateY(-3px);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 16px;
+}
+
 .chartContainer h3 {
   display: flex;
   align-items: center;
   font-family: 'Segoe UI', sans-serif;
   color: #4a4a4a;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
 .chartContainer h3 img {
-  height: 25px;
-  margin-right: 8px;
+  height: 24px;
+  margin-right: 10px;
 }
 
 .chartBox {
+  width: 100%;
   height: 300px;
-  /* altura reducida para no scrollear */
   position: relative;
 }
 
 .chartBox canvas {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 
-/* Responsive: menos de 1024px → 2 charts por fila */
 @media (max-width: 1024px) {
+  .Tasks {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .charts {
     grid-template-columns: repeat(2, 1fr);
   }
-
+  .Task {
+    width: 100%;
+  }
   .chartBox {
     height: 280px;
-    /* un poquito más bajo para tablets */
   }
 }
 
-/* Responsive: menos de 600px → 1 chart por fila */
 @media (max-width: 600px) {
+  .Tasks {
+    grid-template-columns: 1fr;
+  }
   .charts {
     grid-template-columns: 1fr;
   }
-
+  .Task {
+    width: 100%;
+  }
+  .newTask {
+    width: 80vw;
+  }
   .chartBox {
     height: 250px;
-    /* móviles más pequeños */
+  }
+  .addTask,
+  .deleteTask {
+    height: 44px;
+    font-size: 14px;
+    padding: 6px 12px;
   }
 }
