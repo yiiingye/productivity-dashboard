@@ -34,11 +34,15 @@ productivity-dashboard/
 │
 ├── productivity-dashboard-backend/
 │   ├── Dockerfile
+│   ├── controllers/ 
+│   ├── models/
+│   ├── routes/
 │   ├── server.js
 │   ├── seed.js
 │   ├── sample_data.json
 │   ├── package.json
-│   └── .env
+│   ├── .env
+│   └──
 │
 └── productivity-dashboard-frontend/
 ├── Dockerfile
@@ -48,6 +52,7 @@ productivity-dashboard/
 │   ├── components/
 │   ├── pages/
 │   └── ...
+├── screenshots/
 └── package.json
 ```
 ---
