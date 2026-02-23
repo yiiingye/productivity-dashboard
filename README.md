@@ -1,13 +1,11 @@
 # 🎀 Real-Time Team Productivity Dashboard
 ![Dockerized](https://img.shields.io/badge/dockerized-yes-blue)
-![Live Demo](https://img.shields.io/badge/demo-vercel-green)
-![Made with Love](https://img.shields.io/badge/made%20with-love-ff69b4)
 
 
 Un dashboard de productividad en tiempo real construido con **React**, **Node.js**, **Express**, **MongoDB** y **Socket.IO**, diseñado para visualizar tareas, métricas y actividad del equipo de forma clara, rápida y agradable.  
-Cute por fuera, profesional por dentro ✨.
 
-El proyecto está completamente **dockerizado**, por lo que cualquier persona puede levantarlo con un solo comando.
+
+El proyecto está completamente **dockerizado**.
 
 ---
 
@@ -207,12 +205,3 @@ volumes:
 
 ```
 ---
-## Despliegue del frontend en Vercel
-
-1. Subir el repo a GitHub
-2. En Vercel → “New Project”
-3. Seleccionar el repo
-4. Elegir la carpeta: _productivity-dashboard-frontend_
-5. Deploy automático
-    - El backend se ejecuta localmente con Docker.
-    - El despliegue en Vercel sirve como demo visual del frontend.
